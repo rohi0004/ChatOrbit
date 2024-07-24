@@ -90,6 +90,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For any inquiries or issues, please contact Rohit Kumar.
 
+## Contributors
+
+Check out the [contributors page](https://github.com/rohi0004/ChatOrbit/graphs/contributors) to see everyone who has contributed to this project.
+
+
 
    
 
