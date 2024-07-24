@@ -69,15 +69,21 @@ ChatOrbit is a scalable, real-time chat application developed using the MERN sta
 ##License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+
 ##Screenshots
+
 1.Home Screen
+
 ![image](https://github.com/user-attachments/assets/58d1c51c-f9be-40c0-9b22-2eaa1efaf97d)
 ![image](https://github.com/user-attachments/assets/579f3e6e-2365-4ae7-b2e2-706bc15236ad)
 
 
 
 2.Chat Screen
+
 ![image](https://github.com/user-attachments/assets/76aae225-34fb-4917-b5be-150efa6dd483)
+
 
 ##Contact
 
