@@ -43,7 +43,7 @@ ChatOrbit is a scalable, real-time chat application developed using the MERN sta
    MONGO_URI=your_mongodb_uri
 
 
-##Usage
+## Usage
 1.Register a new account or log in with existing credentials.
 
 2.Start a new chat or join an existing group chat. 
@@ -55,7 +55,7 @@ ChatOrbit is a scalable, real-time chat application developed using the MERN sta
 
 
 
-##Contributing
+## Contributing
 1.Fork the repository.
 
 2.Create a new branch (git checkout -b feature/YourFeature).
@@ -66,12 +66,12 @@ ChatOrbit is a scalable, real-time chat application developed using the MERN sta
 
 5.Open a pull request.
 
-##License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 
-##Screenshots
+## Screenshots
 
 1.Home Screen
 
@@ -85,7 +85,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ![image](https://github.com/user-attachments/assets/76aae225-34fb-4917-b5be-150efa6dd483)
 
 
-##Contact
+## Contact
 
 
 For any inquiries or issues, please contact Rohit Kumar.
