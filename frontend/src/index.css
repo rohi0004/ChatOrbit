@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap");
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +12,148 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  background: linear-gradient(135deg, #4B0082, #0A122A); /* Dark blue to very dark blue gradient */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Chat Icons */
+.chat-icon {
+  position: absolute;
+  font-size: 2rem;
+  animation: float 6s infinite ease-in-out;
+}
+
+.chat-icon::before {
+  content: "💬";
+}
+
+.chat-icon.speech-bubble::before {
+  content: "🗨️";
+}
+
+.chat-icon.message::before {
+  content: "📩";
+}
+
+.chat-icon.typing::before {
+  content: "✍️";
+}
+
+.chat-icon.robot::before {
+  content: "🤖";
+}
+
+.chat-icon.heart::before {
+  content: "💌";
+}
+
+/* Sparkles */
+.sparkle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white;
+  animation: sparkle 2s infinite ease-in-out;
+}
+
+/* Positioning Chat Icons */
+.chat-icon:nth-child(1) {
+  top: 10%;
+  left: 5%;
+  animation-duration: 5s;
+}
+
+.chat-icon:nth-child(2) {
+  top: 20%;
+  right: 10%;
+  animation-duration: 7s;
+}
+
+.chat-icon:nth-child(3) {
+  top: 40%;
+  left: 15%;
+  animation-duration: 6s;
+}
+
+.chat-icon:nth-child(4) {
+  top: 60%;
+  right: 20%;
+  animation-duration: 8s;
+}
+
+.chat-icon:nth-child(5) {
+  top: 80%;
+  left: 25%;
+  animation-duration: 9s;
+}
+
+/* Positioning Sparkles */
+.sparkle1 {
+  top: 30%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.sparkle2 {
+  top: 50%;
+  left: 25%;
+  animation-delay: 1s;
+}
+
+.sparkle3 {
+  top: 70%;
+  left: 35%;
+  animation-delay: 2s;
+}
+
+.sparkle4 {
+  top: 40%;
+  right: 20%;
+  animation-delay: 0.5s;
+}
+
+.sparkle5 {
+  top: 60%;
+  right: 30%;
+  animation-delay: 1.5s;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
