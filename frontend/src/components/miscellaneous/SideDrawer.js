@@ -83,7 +83,7 @@ function SideDrawer() {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Load the Search Results",
         status: "error",
         duration: 5000,
@@ -128,21 +128,26 @@ function SideDrawer() {
         d="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="#117b9c"
+        bg="linear-gradient(135deg, #87CEEB, #00008B)" // Gradient background
         w="100%"
-        p="5px 10px 5px 10px"
-        borderWidth="5px"
+        p="10px 20px"
+        boxShadow="md"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
+          <Button
+            variant="ghost"
+            onClick={onOpen}
+            color="white"
+            _hover={{ bg: "blackAlpha.300" }}
+          >
             <i className="fas fa-search"></i>
             <Text d={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="3xl" fontFamily="Work sans" >
-         ChatOrbit
+        <Text fontSize="3xl" fontFamily="Work sans" color="white" fontWeight="bold">
+          ChatOrbit
         </Text>
         <div>
           <Menu>
@@ -151,10 +156,12 @@ function SideDrawer() {
                 count={notification.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2xl" m={1} />
+              <BellIcon fontSize="2xl" m={1} color="white" />
             </MenuButton>
-            <MenuList pl={2}>
-              {!notification.length && "No New Messages"}
+            <MenuList bg="white" borderRadius="lg" boxShadow="lg">
+              {!notification.length && (
+                <MenuItem>No New Messages</MenuItem>
+              )}
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -171,7 +178,12 @@ function SideDrawer() {
             </MenuList>
           </Menu>
           <Menu>
-            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              as={Button}
+              bg="white"
+              rightIcon={<ChevronDownIcon />}
+              borderRadius="full"
+            >
               <Avatar
                 size="sm"
                 cursor="pointer"
@@ -179,9 +191,9 @@ function SideDrawer() {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList>
+            <MenuList bg="white" borderRadius="lg" boxShadow="lg">
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
+                <MenuItem>My Profile</MenuItem>
               </ProfileModal>
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
@@ -192,8 +204,10 @@ function SideDrawer() {
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
+        <DrawerContent bg="linear-gradient(135deg, #87CEEB, #00008B)" color="white">
+          <DrawerHeader borderBottomWidth="1px" fontSize="2xl" fontFamily="Work sans">
+            Search Users
+          </DrawerHeader>
           <DrawerBody>
             <Box d="flex" pb={2}>
               <Input
@@ -201,8 +215,20 @@ function SideDrawer() {
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                bg="blackAlpha.700"
+                borderColor="skyblue.200"
+                _hover={{ borderColor: "skyblue.400" }}
+                _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
+                color="white"
               />
-              <Button onClick={handleSearch}>Go</Button>
+              <Button
+                onClick={handleSearch}
+                bg="skyblue.200"
+                _hover={{ bg: "skyblue.400" }}
+                color="black"
+              >
+                Go
+              </Button>
             </Box>
             {loading ? (
               <ChatLoading />

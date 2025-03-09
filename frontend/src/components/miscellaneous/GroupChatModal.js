@@ -12,6 +12,8 @@ import {
   Input,
   useToast,
   Box,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -64,7 +66,7 @@ const GroupChatModal = ({ children }) => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Load the Search Results",
         status: "error",
         duration: 5000,
@@ -81,7 +83,7 @@ const GroupChatModal = ({ children }) => {
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
       toast({
-        title: "Please fill all the feilds",
+        title: "Please fill all the fields",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -130,61 +132,80 @@ const GroupChatModal = ({ children }) => {
       <span onClick={onOpen}>{children}</span>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay  />
+        <ModalOverlay />
         <ModalContent
-        bg="#117b9c"
-        > 
+          bg="linear-gradient(135deg, #87CEEB, #00008B)" // Gradient background
+          color="white"
+          borderRadius="lg"
+          boxShadow="xl"
+        >
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"
-            d="flex"
-            justifyContent="center"
-
+            textAlign="center"
+            py={6}
           >
             Create Group Chat
           </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody d="flex" flexDir="column" alignItems="center">
-            <FormControl>
-              <Input
-                placeholder="Chat Name"
-                mb={3}
-                onChange={(e) => setGroupChatName(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <Input
-                placeholder="Add Users eg: Rohit, Roshan, Yash"
-                mb={1}
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-            </FormControl>
-            <Box w="100%" d="flex" flexWrap="wrap">
-              {selectedUsers.map((u) => (
-                <UserBadgeItem
-                  key={u._id}
-                  user={u}
-                  handleFunction={() => handleDelete(u)}
+          <ModalCloseButton color="white" />
+          <ModalBody>
+            <VStack spacing={4}>
+              <FormControl>
+                <Input
+                  placeholder="Chat Name"
+                  mb={3}
+                  onChange={(e) => setGroupChatName(e.target.value)}
+                  bg="blackAlpha.700"
+                  borderColor="skyblue.200"
+                  _hover={{ borderColor: "skyblue.400" }}
+                  _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
+                  color="white"
                 />
-              ))}
-            </Box>
-            {loading ? (
-              // <ChatLoading />
-              <div>Loading...</div>
-            ) : (
-              searchResult
-                ?.slice(0, 4)
-                .map((user) => (
-                  <UserListItem
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => handleGroup(user)}
+              </FormControl>
+              <FormControl>
+                <Input
+                  placeholder="Add Users eg: Rohit, Roshan, Yash"
+                  mb={1}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  bg="blackAlpha.700"
+                  borderColor="skyblue.200"
+                  _hover={{ borderColor: "skyblue.400" }}
+                  _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
+                  color="white"
+                />
+              </FormControl>
+              <Box w="100%" d="flex" flexWrap="wrap">
+                {selectedUsers.map((u) => (
+                  <UserBadgeItem
+                    key={u._id}
+                    user={u}
+                    handleFunction={() => handleDelete(u)}
                   />
-                ))
-            )}
+                ))}
+              </Box>
+              {loading ? (
+                <Text>Loading...</Text>
+              ) : (
+                searchResult
+                  ?.slice(0, 4)
+                  .map((user) => (
+                    <UserListItem
+                      key={user._id}
+                      user={user}
+                      handleFunction={() => handleGroup(user)}
+                    />
+                  ))
+              )}
+            </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handleSubmit} colorScheme="blue">
+            <Button
+              onClick={handleSubmit}
+              colorScheme="blue"
+              bg="skyblue.200"
+              _hover={{ bg: "skyblue.400" }}
+              color="black"
+            >
               Create Chat
             </Button>
           </ModalFooter>

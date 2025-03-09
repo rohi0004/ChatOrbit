@@ -1,23 +1,38 @@
 import { CloseIcon } from "@chakra-ui/icons";
-import { Badge } from "@chakra-ui/layout";
+import { Badge, Box, Text } from "@chakra-ui/layout";
 
 const UserBadgeItem = ({ user, handleFunction, admin }) => {
   return (
     <Badge
-      px={2}
-      py={1}
-      borderRadius="lg"
+      px={3}
+      py={1.5}
+      borderRadius="full"
       m={1}
       mb={2}
       variant="solid"
-      fontSize={12}
-      colorScheme="purple"
+      fontSize="sm"
+      fontWeight="medium"
+      bgGradient="linear(to-r, teal.400, blue.500)" // Gradient background
+      color="white"
       cursor="pointer"
       onClick={handleFunction}
+      display="flex"
+      alignItems="center"
+      _hover={{
+        bgGradient: "linear(to-r, teal.500, blue.600)", // Darker gradient on hover
+        transform: "scale(1.05)", // Slight scale effect on hover
+      }}
+      transition="all 0.2s ease-in-out"
     >
-      {user.name}
-      {admin === user._id && <span> (Admin)</span>}
-      <CloseIcon pl={1} />
+      <Text as="span" mr={1}>
+        {user.name}
+      </Text>
+      {admin === user._id && (
+        <Text as="span" fontSize="xs" opacity={0.8}>
+          (Admin)
+        </Text>
+      )}
+      <CloseIcon w={3} h={3} ml={1} />
     </Badge>
   );
 };

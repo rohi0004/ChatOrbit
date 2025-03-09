@@ -24,7 +24,7 @@ import UserListItem from "../userAvatar/UserListItem";
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [groupChatName, setGroupChatName] = useState();
+  const [groupChatName, setGroupChatName] = useState("");
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Load the Search Results",
         status: "error",
         duration: 5000,
@@ -82,14 +82,12 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         config
       );
 
-      console.log(data._id);
-      // setSelectedChat("");
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -145,7 +143,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -191,7 +189,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -205,16 +203,23 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
   return (
     <>
-      <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+      <IconButton
+        d={{ base: "flex" }}
+        icon={<ViewIcon />}
+        onClick={onOpen}
+        colorScheme="teal"
+        aria-label="View Group Details"
+      />
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="gray.800" color="white">
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"
             d="flex"
             justifyContent="center"
+            color="teal.300"
           >
             {selectedChat.chatName}
           </ModalHeader>
@@ -237,6 +242,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 mb={3}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}
+                bg="gray.700"
+                borderColor="teal.300"
+                _hover={{ borderColor: "teal.400" }}
+                _focus={{ borderColor: "teal.400", boxShadow: "none" }}
+                color="white"
               />
               <Button
                 variant="solid"
@@ -253,11 +263,16 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 placeholder="Add User to group"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
+                bg="gray.700"
+                borderColor="teal.300"
+                _hover={{ borderColor: "teal.400" }}
+                _focus={{ borderColor: "teal.400", boxShadow: "none" }}
+                color="white"
               />
             </FormControl>
 
             {loading ? (
-              <Spinner size="lg" />
+              <Spinner size="lg" color="teal.300" />
             ) : (
               searchResult?.map((user) => (
                 <UserListItem
@@ -269,7 +284,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={() => handleRemove(user)} colorScheme="red">
+            <Button
+              onClick={() => handleRemove(user)}
+              colorScheme="red"
+              variant="outline"
+            >
               Leave Group
             </Button>
           </ModalFooter>

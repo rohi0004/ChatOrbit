@@ -9,32 +9,37 @@ const UserListItem = ({ handleFunction }) => {
     <Box
       onClick={handleFunction}
       cursor="pointer"
-      bg="#E8E8E8"
+      bg="gray.700" // Dark background
       _hover={{
-        background: "#38B2AC",
+        background: "linear-gradient(135deg, #3182CE, #805AD5)", // Gradient on hover
         color: "white",
+        transform: "scale(1.02)", // Slight scale effect on hover
       }}
       w="100%"
-      d="flex"
+      display="flex"
       alignItems="center"
-      color="black"
-      px={3}
-      py={2}
+      color="white"
+      px={4}
+      py={3}
       mb={2}
       borderRadius="lg"
+      transition="all 0.2s ease-in-out" // Smooth transition
+      boxShadow="md" // Subtle shadow
     >
       <Avatar
-        mr={2}
-        size="sm"
+        mr={3}
+        size="md"
         cursor="pointer"
         name={user.name}
         src={user.pic}
+        border="2px solid teal.300" // Add a border to the avatar
       />
       <Box>
-        <Text>{user.name}</Text>
-        <Text fontSize="xs">
-          <b>Email : </b>
-          {user.email}
+        <Text fontWeight="semibold" fontSize="lg">
+          {user.name}
+        </Text>
+        <Text fontSize="sm" color="gray.300">
+          <b>Email:</b> {user.email}
         </Text>
       </Box>
     </Box>
