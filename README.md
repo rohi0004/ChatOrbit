@@ -75,14 +75,17 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 1.Home Screen
 
-![image](https://github.com/user-attachments/assets/58d1c51c-f9be-40c0-9b22-2eaa1efaf97d)
-![image](https://github.com/user-attachments/assets/579f3e6e-2365-4ae7-b2e2-706bc15236ad)
+![image](https://github.com/user-attachments/assets/6a59dc67-f540-4308-be13-2cc6c6c32388)
+
+![image](https://github.com/user-attachments/assets/4c8bf3ca-22ca-4ea6-84b3-6d88befbd4b1)
+
 
 
 
 2.Chat Screen
 
-![image](https://github.com/user-attachments/assets/76aae225-34fb-4917-b5be-150efa6dd483)
+![image](https://github.com/user-attachments/assets/40aeb1d7-6cc8-494c-97c0-20550ac88f0a)
+
 
 
 ## Contact
