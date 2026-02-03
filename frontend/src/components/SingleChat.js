@@ -1,12 +1,25 @@
 import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, HStack, Text } from "@chakra-ui/layout";
 import "./styles.css";
-import { IconButton, Spinner, useToast } from "@chakra-ui/react";
+import {
+  FormHelperText,
+  IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  SimpleGrid,
+  Spinner,
+  Tooltip,
+  useColorModeValue,
+  useToast,
+} from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, AttachmentIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
@@ -25,7 +38,34 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const fileInputRef = useRef(null);
   const toast = useToast();
+  const chatPanelBg = useColorModeValue("white", "gray.800");
+  const inputBg = useColorModeValue("gray.100", "gray.700");
+  const helperTextColor = useColorModeValue("gray.600", "gray.300");
+  const emojis = [
+    "😀",
+    "😁",
+    "😂",
+    "🤣",
+    "😊",
+    "😍",
+    "😘",
+    "😎",
+    "🤩",
+    "😇",
+    "😅",
+    "😜",
+    "🤔",
+    "😴",
+    "😢",
+    "🙏",
+    "👍",
+    "👏",
+    "🔥",
+    "🎉",
+  ];
 
   const defaultOptions = {
     loop: true,
@@ -102,6 +142,146 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         });
       }
     }
+  };
+
+  const sendMessageClick = async () => {
+    if (!newMessage) return;
+    socket.emit("stop typing", selectedChat._id);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      setNewMessage("");
+      const { data } = await axios.post(
+        "/api/message",
+        {
+          content: newMessage,
+          chatId: selectedChat,
+        },
+        config
+      );
+      socket.emit("new message", data);
+      setMessages([...messages, data]);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to send the Message",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const formatBytes = (bytes = 0) => {
+    if (!bytes) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+  };
+
+  const sendFileMessage = async (filePayload) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "/api/message",
+        {
+          content: `FILE::${JSON.stringify(filePayload)}`,
+          chatId: selectedChat,
+        },
+        config
+      );
+      socket.emit("new message", data);
+      setMessages([...messages, data]);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to send the file",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please select a file under 20MB.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      event.target.value = "";
+      return;
+    }
+
+    setUploadingFile(true);
+    try {
+      const data = new FormData();
+      data.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "post",
+        body: data,
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const fileData = await response.json();
+
+      await sendFileMessage({
+        name: fileData.name,
+        size: fileData.size,
+        type: fileData.type || "file",
+        url: fileData.url,
+        prettySize: formatBytes(fileData.size),
+      });
+      toast({
+        title: "File shared",
+        description: `${file.name} has been sent.`,
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } catch (error) {
+      toast({
+        title: "Upload failed",
+        description: "Unable to upload this file. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } finally {
+      setUploadingFile(false);
+      event.target.value = "";
+    }
+  };
+
+  const handleEmojiSelect = (emoji) => {
+    setNewMessage((prevMessage) => `${prevMessage}${emoji}`);
   };
 
   useEffect(() => {
@@ -201,7 +381,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
+            bg={chatPanelBg}
             w="100%"
             h="100%"
             borderRadius="lg"
@@ -239,13 +419,79 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-              />
+              <HStack spacing={2} alignItems="center">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  hidden
+                  accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.zip"
+                  onChange={handleFileChange}
+                />
+                <Tooltip label="Attach a file (max 20MB)">
+                  <IconButton
+                    icon={<AttachmentIcon />}
+                    aria-label="Attach file"
+                    variant="solid"
+                    colorScheme="teal"
+                    isLoading={uploadingFile}
+                    onClick={() => fileInputRef.current?.click()}
+                  />
+                </Tooltip>
+                <Popover placement="top-start">
+                  <PopoverTrigger>
+                    <IconButton
+                      icon={<Text fontSize="18px">😊</Text>}
+                      aria-label="Add emoji"
+                      variant="outline"
+                      colorScheme="yellow"
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent width="220px">
+                    <PopoverArrow />
+                    <PopoverBody>
+                      <SimpleGrid columns={5} spacing={2}>
+                        {emojis.map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => handleEmojiSelect(emoji)}
+                            style={{
+                              fontSize: "18px",
+                              padding: "4px",
+                              borderRadius: "6px",
+                              background: "transparent",
+                              border: "none",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </SimpleGrid>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+                <Input
+                  variant="filled"
+                  bg={inputBg}
+                  placeholder="Enter a message or drop a file to share.."
+                  value={newMessage}
+                  onChange={typingHandler}
+                />
+                <Tooltip label="Send message">
+                  <IconButton
+                    icon={<ArrowForwardIcon />}
+                    aria-label="Send message"
+                    colorScheme="blue"
+                    onClick={sendMessageClick}
+                    isDisabled={!newMessage}
+                  />
+                </Tooltip>
+              </HStack>
+              <FormHelperText color={helperTextColor}>
+                Share files or add emojis for a smooth, WhatsApp-style chat
+                experience.
+              </FormHelperText>
             </FormControl>
           </Box>
         </>

@@ -10,6 +10,8 @@ import {
   useDisclosure,
   FormControl,
   Input,
+  FormHelperText,
+  useColorModeValue,
   useToast,
   Box,
   Text,
@@ -29,6 +31,14 @@ const GroupChatModal = ({ children }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const modalBg = useColorModeValue(
+    "linear-gradient(135deg, #FFFFFF, #E7F0FF)",
+    "linear-gradient(135deg, #1E293B, #0F172A)"
+  );
+  const inputBg = useColorModeValue("white", "gray.700");
+  const inputBorder = useColorModeValue("blue.200", "blue.500");
+  const inputText = useColorModeValue("gray.700", "whiteAlpha.900");
+  const helperText = useColorModeValue("gray.600", "gray.300");
 
   const { user, chats, setChats } = ChatState();
 
@@ -127,6 +137,8 @@ const GroupChatModal = ({ children }) => {
     }
   };
 
+  const isCreateDisabled = !groupChatName || selectedUsers.length < 2;
+
   return (
     <>
       <span onClick={onOpen}>{children}</span>
@@ -134,8 +146,8 @@ const GroupChatModal = ({ children }) => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent
-          bg="linear-gradient(135deg, #87CEEB, #00008B)" // Gradient background
-          color="white"
+          bg={modalBg}
+          color={inputText}
           borderRadius="lg"
           boxShadow="xl"
         >
@@ -147,7 +159,7 @@ const GroupChatModal = ({ children }) => {
           >
             Create Group Chat
           </ModalHeader>
-          <ModalCloseButton color="white" />
+          <ModalCloseButton color={inputText} />
           <ModalBody>
             <VStack spacing={4}>
               <FormControl>
@@ -155,24 +167,30 @@ const GroupChatModal = ({ children }) => {
                   placeholder="Chat Name"
                   mb={3}
                   onChange={(e) => setGroupChatName(e.target.value)}
-                  bg="blackAlpha.700"
-                  borderColor="skyblue.200"
-                  _hover={{ borderColor: "skyblue.400" }}
-                  _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
-                  color="white"
+                  bg={inputBg}
+                  borderColor={inputBorder}
+                  _hover={{ borderColor: useColorModeValue("blue.300", "blue.400") }}
+                  _focus={{ borderColor: useColorModeValue("blue.400", "blue.400"), boxShadow: "none" }}
+                  color={inputText}
                 />
+                <FormHelperText color={helperText}>
+                  Give your group a clear name so everyone can find it fast.
+                </FormHelperText>
               </FormControl>
               <FormControl>
                 <Input
                   placeholder="Add Users eg: Rohit, Roshan, Yash"
                   mb={1}
                   onChange={(e) => handleSearch(e.target.value)}
-                  bg="blackAlpha.700"
-                  borderColor="skyblue.200"
-                  _hover={{ borderColor: "skyblue.400" }}
-                  _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
-                  color="white"
+                  bg={inputBg}
+                  borderColor={inputBorder}
+                  _hover={{ borderColor: useColorModeValue("blue.300", "blue.400") }}
+                  _focus={{ borderColor: useColorModeValue("blue.400", "blue.400"), boxShadow: "none" }}
+                  color={inputText}
                 />
+                <FormHelperText color={helperText}>
+                  Add at least two people to start a group chat.
+                </FormHelperText>
               </FormControl>
               <Box w="100%" d="flex" flexWrap="wrap">
                 {selectedUsers.map((u) => (
@@ -202,9 +220,10 @@ const GroupChatModal = ({ children }) => {
             <Button
               onClick={handleSubmit}
               colorScheme="blue"
-              bg="skyblue.200"
-              _hover={{ bg: "skyblue.400" }}
-              color="black"
+              bg={useColorModeValue("blue.500", "cyan.400")}
+              _hover={{ bg: useColorModeValue("blue.600", "cyan.500") }}
+              color={useColorModeValue("white", "gray.900")}
+              isDisabled={isCreateDisabled}
             >
               Create Chat
             </Button>

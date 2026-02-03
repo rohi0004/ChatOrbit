@@ -18,7 +18,6 @@ code {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #87CEEB, #00008B); /* Sky blue to dark blue gradient */
   position: relative;
   overflow: hidden;
 }

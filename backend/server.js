@@ -4,11 +4,13 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
 
 dotenv.config();
 connectDB();
+const __dirname1 = path.resolve();
 const app = express();
 
 app.use(express.json()); // to accept json data
@@ -20,10 +22,11 @@ app.use(express.json()); // to accept json data
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/upload", uploadRoutes);
+
+app.use("/uploads", express.static(path.join(__dirname1, "/uploads")));
 
 // --------------------------deployment------------------------------
-
-const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
