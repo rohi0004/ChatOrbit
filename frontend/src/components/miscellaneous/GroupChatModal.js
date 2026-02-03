@@ -10,6 +10,7 @@ import {
   useDisclosure,
   FormControl,
   Input,
+  FormHelperText,
   useToast,
   Box,
   Text,
@@ -127,6 +128,8 @@ const GroupChatModal = ({ children }) => {
     }
   };
 
+  const isCreateDisabled = !groupChatName || selectedUsers.length < 2;
+
   return (
     <>
       <span onClick={onOpen}>{children}</span>
@@ -161,6 +164,9 @@ const GroupChatModal = ({ children }) => {
                   _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
                   color="white"
                 />
+                <FormHelperText color="whiteAlpha.700">
+                  Give your group a clear name so everyone can find it fast.
+                </FormHelperText>
               </FormControl>
               <FormControl>
                 <Input
@@ -173,6 +179,9 @@ const GroupChatModal = ({ children }) => {
                   _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
                   color="white"
                 />
+                <FormHelperText color="whiteAlpha.700">
+                  Add at least two people to start a group chat.
+                </FormHelperText>
               </FormControl>
               <Box w="100%" d="flex" flexWrap="wrap">
                 {selectedUsers.map((u) => (
@@ -205,6 +214,7 @@ const GroupChatModal = ({ children }) => {
               bg="skyblue.200"
               _hover={{ bg: "skyblue.400" }}
               color="black"
+              isDisabled={isCreateDisabled}
             >
               Create Chat
             </Button>

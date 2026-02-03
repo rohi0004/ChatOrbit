@@ -11,10 +11,12 @@ import {
   useDisclosure,
   FormControl,
   Input,
+  FormHelperText,
   useToast,
   Box,
   IconButton,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -226,6 +228,12 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
           <ModalCloseButton />
           <ModalBody d="flex" flexDir="column" alignItems="center">
+            <Text color="gray.400" fontSize="sm" mb={2}>
+              Group admin: {selectedChat.groupAdmin.name}
+            </Text>
+            <Text color="gray.400" fontSize="sm" mb={4}>
+              Members: {selectedChat.users.length}
+            </Text>
             <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
               {selectedChat.users.map((u) => (
                 <UserBadgeItem
@@ -254,10 +262,14 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 ml={1}
                 isLoading={renameloading}
                 onClick={handleRename}
+                isDisabled={!groupChatName}
               >
                 Update
               </Button>
             </FormControl>
+            <FormHelperText color="gray.400" mb={3}>
+              Keep names short and descriptive for quick discovery.
+            </FormHelperText>
             <FormControl>
               <Input
                 placeholder="Add User to group"
@@ -269,6 +281,9 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 _focus={{ borderColor: "teal.400", boxShadow: "none" }}
                 color="white"
               />
+              <FormHelperText color="gray.400">
+                Admins can add or remove members for smooth group management.
+              </FormHelperText>
             </FormControl>
 
             {loading ? (
