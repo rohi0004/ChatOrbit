@@ -13,6 +13,7 @@ import {
   SimpleGrid,
   Spinner,
   Tooltip,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
@@ -40,6 +41,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [uploadingFile, setUploadingFile] = useState(false);
   const fileInputRef = useRef(null);
   const toast = useToast();
+  const chatPanelBg = useColorModeValue("white", "gray.800");
+  const inputBg = useColorModeValue("gray.100", "gray.700");
+  const helperTextColor = useColorModeValue("gray.600", "gray.300");
   const emojis = [
     "😀",
     "😁",
@@ -377,7 +381,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
+            bg={chatPanelBg}
             w="100%"
             h="100%"
             borderRadius="lg"
@@ -469,6 +473,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 </Popover>
                 <Input
                   variant="filled"
+                  bg={inputBg}
                   bg="#E0E0E0"
                   placeholder="Enter a message or drop a file to share.."
                   value={newMessage}
@@ -484,6 +489,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   />
                 </Tooltip>
               </HStack>
+              <FormHelperText color={helperTextColor}>
               <FormHelperText color="gray.600">
                 Share files or add emojis for a smooth, WhatsApp-style chat
                 experience.

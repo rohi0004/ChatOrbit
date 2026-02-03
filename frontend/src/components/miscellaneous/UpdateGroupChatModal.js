@@ -12,6 +12,7 @@ import {
   FormControl,
   Input,
   FormHelperText,
+  useColorModeValue,
   useToast,
   Box,
   IconButton,
@@ -32,6 +33,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
   const toast = useToast();
+  const modalBg = useColorModeValue("white", "gray.800");
+  const modalText = useColorModeValue("gray.700", "whiteAlpha.900");
+  const inputBg = useColorModeValue("gray.50", "gray.700");
+  const inputBorder = useColorModeValue("teal.300", "teal.400");
+  const helperText = useColorModeValue("gray.600", "gray.400");
 
   const { selectedChat, setSelectedChat, user } = ChatState();
 
@@ -215,7 +221,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent bg="gray.800" color="white">
+        <ModalContent bg={modalBg} color={modalText}>
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"
@@ -228,6 +234,10 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
           <ModalCloseButton />
           <ModalBody d="flex" flexDir="column" alignItems="center">
+            <Text color={helperText} fontSize="sm" mb={2}>
+              Group admin: {selectedChat.groupAdmin.name}
+            </Text>
+            <Text color={helperText} fontSize="sm" mb={4}>
             <Text color="gray.400" fontSize="sm" mb={2}>
               Group admin: {selectedChat.groupAdmin.name}
             </Text>
@@ -250,11 +260,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 mb={3}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}
-                bg="gray.700"
-                borderColor="teal.300"
+                bg={inputBg}
+                borderColor={inputBorder}
                 _hover={{ borderColor: "teal.400" }}
                 _focus={{ borderColor: "teal.400", boxShadow: "none" }}
-                color="white"
+                color={modalText}
               />
               <Button
                 variant="solid"
@@ -267,6 +277,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 Update
               </Button>
             </FormControl>
+            <FormHelperText color={helperText} mb={3}>
             <FormHelperText color="gray.400" mb={3}>
               Keep names short and descriptive for quick discovery.
             </FormHelperText>
@@ -275,12 +286,13 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 placeholder="Add User to group"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
-                bg="gray.700"
-                borderColor="teal.300"
+                bg={inputBg}
+                borderColor={inputBorder}
                 _hover={{ borderColor: "teal.400" }}
                 _focus={{ borderColor: "teal.400", boxShadow: "none" }}
-                color="white"
+                color={modalText}
               />
+              <FormHelperText color={helperText}>
               <FormHelperText color="gray.400">
                 Admins can add or remove members for smooth group management.
               </FormHelperText>

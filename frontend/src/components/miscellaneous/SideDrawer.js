@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/button";
+import { Button, IconButton } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
@@ -17,7 +17,7 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -31,6 +31,7 @@ import { Effect } from "react-notification-badge";
 import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
+import { useColorMode, useColorModeValue } from "@chakra-ui/react";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -50,6 +51,14 @@ function SideDrawer() {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useHistory();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const headerBg = useColorModeValue(
+    "linear-gradient(135deg, #FFFFFF, #E0ECFF)",
+    "linear-gradient(135deg, #1E293B, #0F172A)"
+  );
+  const panelBg = useColorModeValue("white", "gray.800");
+  const panelText = useColorModeValue("gray.700", "whiteAlpha.900");
+  const primaryAccent = useColorModeValue("blue.600", "cyan.300");
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -128,7 +137,7 @@ function SideDrawer() {
         d="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="linear-gradient(135deg, #87CEEB, #00008B)" // Gradient background
+        bg={headerBg}
         w="100%"
         p="10px 20px"
         boxShadow="md"
@@ -137,8 +146,8 @@ function SideDrawer() {
           <Button
             variant="ghost"
             onClick={onOpen}
-            color="white"
-            _hover={{ bg: "blackAlpha.300" }}
+            color={panelText}
+            _hover={{ bg: useColorModeValue("blackAlpha.100", "whiteAlpha.200") }}
           >
             <i className="fas fa-search"></i>
             <Text d={{ base: "none", md: "flex" }} px={4}>
@@ -146,19 +155,30 @@ function SideDrawer() {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="3xl" fontFamily="Work sans" color="white" fontWeight="bold">
+        <Text fontSize="3xl" fontFamily="Work sans" color={panelText} fontWeight="bold">
           ChatOrbit
         </Text>
-        <div>
+        <Box d="flex" alignItems="center" gap={2}>
+          <Tooltip
+            label={colorMode === "light" ? "Switch to dark mode" : "Switch to light mode"}
+          >
+            <IconButton
+              aria-label="Toggle color mode"
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              variant="outline"
+              colorScheme="blue"
+              onClick={toggleColorMode}
+            />
+          </Tooltip>
           <Menu>
             <MenuButton p={1}>
               <NotificationBadge
                 count={notification.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2xl" m={1} color="white" />
+              <BellIcon fontSize="2xl" m={1} color={primaryAccent} />
             </MenuButton>
-            <MenuList bg="white" borderRadius="lg" boxShadow="lg">
+            <MenuList bg={panelBg} color={panelText} borderRadius="lg" boxShadow="lg">
               {!notification.length && (
                 <MenuItem>No New Messages</MenuItem>
               )}
@@ -180,7 +200,7 @@ function SideDrawer() {
           <Menu>
             <MenuButton
               as={Button}
-              bg="white"
+              bg={panelBg}
               rightIcon={<ChevronDownIcon />}
               borderRadius="full"
             >
@@ -191,7 +211,7 @@ function SideDrawer() {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList bg="white" borderRadius="lg" boxShadow="lg">
+            <MenuList bg={panelBg} color={panelText} borderRadius="lg" boxShadow="lg">
               <ProfileModal user={user}>
                 <MenuItem>My Profile</MenuItem>
               </ProfileModal>
@@ -199,12 +219,12 @@ function SideDrawer() {
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </Box>
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent bg="linear-gradient(135deg, #87CEEB, #00008B)" color="white">
+        <DrawerContent bg={headerBg} color={panelText}>
           <DrawerHeader borderBottomWidth="1px" fontSize="2xl" fontFamily="Work sans">
             Search Users
           </DrawerHeader>
@@ -215,17 +235,17 @@ function SideDrawer() {
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                bg="blackAlpha.700"
-                borderColor="skyblue.200"
-                _hover={{ borderColor: "skyblue.400" }}
-                _focus={{ borderColor: "skyblue.400", boxShadow: "none" }}
-                color="white"
+                bg={useColorModeValue("white", "gray.700")}
+                borderColor={useColorModeValue("blue.200", "blue.400")}
+                _hover={{ borderColor: useColorModeValue("blue.300", "blue.500") }}
+                _focus={{ borderColor: useColorModeValue("blue.400", "blue.500"), boxShadow: "none" }}
+                color={panelText}
               />
               <Button
                 onClick={handleSearch}
-                bg="skyblue.200"
-                _hover={{ bg: "skyblue.400" }}
-                color="black"
+                bg={useColorModeValue("blue.500", "cyan.400")}
+                _hover={{ bg: useColorModeValue("blue.600", "cyan.500") }}
+                color={useColorModeValue("white", "gray.900")}
               >
                 Go
               </Button>
