@@ -474,6 +474,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <Input
                   variant="filled"
                   bg={inputBg}
+                  bg="#E0E0E0"
                   placeholder="Enter a message or drop a file to share.."
                   value={newMessage}
                   onChange={typingHandler}
@@ -489,6 +490,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 </Tooltip>
               </HStack>
               <FormHelperText color={helperTextColor}>
+              <FormHelperText color="gray.600">
                 Share files or add emojis for a smooth, WhatsApp-style chat
                 experience.
               </FormHelperText>

@@ -174,6 +174,7 @@ const GroupChatModal = ({ children }) => {
                   color={inputText}
                 />
                 <FormHelperText color={helperText}>
+                <FormHelperText color="whiteAlpha.700">
                   Give your group a clear name so everyone can find it fast.
                 </FormHelperText>
               </FormControl>
@@ -189,6 +190,7 @@ const GroupChatModal = ({ children }) => {
                   color={inputText}
                 />
                 <FormHelperText color={helperText}>
+                <FormHelperText color="whiteAlpha.700">
                   Add at least two people to start a group chat.
                 </FormHelperText>
               </FormControl>
@@ -223,6 +225,9 @@ const GroupChatModal = ({ children }) => {
               bg={useColorModeValue("blue.500", "cyan.400")}
               _hover={{ bg: useColorModeValue("blue.600", "cyan.500") }}
               color={useColorModeValue("white", "gray.900")}
+              bg="skyblue.200"
+              _hover={{ bg: "skyblue.400" }}
+              color="black"
               isDisabled={isCreateDisabled}
             >
               Create Chat

@@ -238,6 +238,10 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
               Group admin: {selectedChat.groupAdmin.name}
             </Text>
             <Text color={helperText} fontSize="sm" mb={4}>
+            <Text color="gray.400" fontSize="sm" mb={2}>
+              Group admin: {selectedChat.groupAdmin.name}
+            </Text>
+            <Text color="gray.400" fontSize="sm" mb={4}>
               Members: {selectedChat.users.length}
             </Text>
             <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
@@ -274,6 +278,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
               </Button>
             </FormControl>
             <FormHelperText color={helperText} mb={3}>
+            <FormHelperText color="gray.400" mb={3}>
               Keep names short and descriptive for quick discovery.
             </FormHelperText>
             <FormControl>
@@ -288,6 +293,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 color={modalText}
               />
               <FormHelperText color={helperText}>
+              <FormHelperText color="gray.400">
                 Admins can add or remove members for smooth group management.
               </FormHelperText>
             </FormControl>

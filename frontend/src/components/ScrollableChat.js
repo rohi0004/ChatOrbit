@@ -1,6 +1,7 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Box, Link, Text } from "@chakra-ui/layout";
 import { Image, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import { Image, Tooltip } from "@chakra-ui/react";
 import ScrollableFeed from "react-scrollable-feed";
 import {
   isLastMessage,
@@ -55,6 +56,7 @@ const ScrollableChat = ({ messages }) => {
             {filePayload ? (
               <Box
                 bg={m.sender._id === user._id ? fileCardOutgoing : fileCardIncoming}
+                bg={m.sender._id === user._id ? "blue.100" : "green.100"}
                 marginLeft={isSameSenderMargin(messages, m, i, user._id)}
                 marginTop={isSameUser(messages, m, i, user._id) ? 3 : 10}
                 borderRadius="16px"
@@ -64,6 +66,7 @@ const ScrollableChat = ({ messages }) => {
                 boxShadow="sm"
               >
                 <Text fontSize="xs" color={fileMeta} mb={1}>
+                <Text fontSize="xs" color="gray.600" mb={1}>
                   Shared file
                 </Text>
                 {filePayload.type?.startsWith("image/") && (
@@ -80,12 +83,17 @@ const ScrollableChat = ({ messages }) => {
                   {filePayload.name}
                 </Text>
                 <Text fontSize="sm" color={fileText} mb={2}>
+                <Text fontWeight="semibold" mb={1}>
+                  {filePayload.name}
+                </Text>
+                <Text fontSize="sm" color="gray.700" mb={2}>
                   {filePayload.prettySize}
                 </Text>
                 <Link
                   href={filePayload.url}
                   isExternal
                   color={fileLink}
+                  color="blue.600"
                   fontWeight="semibold"
                 >
                   Download
@@ -95,6 +103,9 @@ const ScrollableChat = ({ messages }) => {
               <span
                 style={{
                   backgroundColor: m.sender._id === user._id ? outgoingBubble : incomingBubble,
+                  backgroundColor: `${
+                    m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
+                  }`,
                   marginLeft: isSameSenderMargin(messages, m, i, user._id),
                   marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
                   borderRadius: "20px",
